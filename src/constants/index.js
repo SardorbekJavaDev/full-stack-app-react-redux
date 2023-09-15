@@ -1,0 +1,1 @@
+export const logo = 'https://www.spot.uz/media/img/2019/07/jg9MmT15635193889964_b.jpg'
