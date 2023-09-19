@@ -1,34 +1,37 @@
-import React, { useState } from 'react'
-import { Input } from '../ui'
-import { icon } from '../constants'
+import {useState} from 'react'
+import {icon} from '../constants'
+import {Input} from '../ui'
+import {useSelector, useDispatch} from 'react-redux'
+import {loginUserStart} from '../slice/auth'
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const dispatch = useDispatch()
+	const {isLoading} = useSelector(state => state.auth)
 
-  return (
-    <div className='text-center'>
-      <main class="form-signin w-25 m-auto">
-        <form>
-          <img class="mb-4" src={icon} alt="" width="150" />
-          <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+	const loginHandler = e => {
+		e.preventDefault()
+		dispatch(loginUserStart())
+	}
 
-          <Input label={'Email address'} state={email} setState={setEmail} type={'email'}/>
-          <Input label={'Password'} state={password} setState={setPassword} type={'password'}/>
-        
-          <div class="form-check text-start my-3">
-            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault"/>
-            <label class="form-check-label" for="flexCheckDefault">
-              Remember me
-            </label>
-          </div>
+	return (
+		<div className='text-center mt-5'>
+			<main className='form-signin w-25 m-auto'>
+				<form>
+					<img className='mb-2' src={icon} alt='' width='72' height='60' />
+					<h1 className='h3 mb-3 fw-normal'>Please login</h1>
 
-          <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
-          <p class="mt-5 mb-3 text-body-secondary">© 2017–2023</p>
-        </form>
-      </main>
-    </div>
-  )
+					<Input label={'Email address'} state={email} setState={setEmail} />
+					<Input label={'Password'} type={'password'} state={password} setState={setPassword} />
+
+					<button className='w-100 btn btn-lg btn-primary mt-2' disabled={isLoading} onClick={loginHandler} type='submit'>
+						{isLoading ? 'loading...' : 'Login'}
+					</button>
+				</form>
+			</main>
+		</div>
+	)
 }
 
 export default Login
